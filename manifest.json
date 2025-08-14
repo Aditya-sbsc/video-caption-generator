@@ -1,0 +1,162 @@
+{
+  "name": "Video Caption Generator",
+  "short_name": "Caption Gen",
+  "description": "Professional video caption generator with multi-language support and real-time speech recognition",
+  "version": "1.0.0",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#2196F3",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["productivity", "multimedia", "utilities"],
+  "screenshots": [
+    {
+      "src": "assets/images/screenshot-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Main application interface"
+    },
+    {
+      "src": "assets/images/screenshot-2.png", 
+      "sizes": "640x480",
+      "type": "image/png",
+      "label": "Subtitle editing timeline"
+    }
+  ],
+  "icons": [
+    {
+      "src": "assets/icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-96.png",
+      "sizes": "96x96", 
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start Recording",
+      "short_name": "Record",
+      "description": "Start live speech-to-text recording",
+      "url": "/?action=record",
+      "icons": [
+        {
+          "src": "assets/icons/record-shortcut.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Upload Video",
+      "short_name": "Upload",
+      "description": "Upload a video file for subtitle generation",
+      "url": "/?action=upload",
+      "icons": [
+        {
+          "src": "assets/icons/upload-shortcut.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Export Subtitles",
+      "short_name": "Export",
+      "description": "Export subtitles in various formats",
+      "url": "/?action=export",
+      "icons": [
+        {
+          "src": "assets/icons/export-shortcut.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "video",
+          "accept": ["video/*"]
+        }
+      ]
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "video/*": [".mp4", ".webm", ".mov", ".avi"],
+        "text/srt": [".srt"],
+        "text/vtt": [".vtt"],
+        "application/json": [".json"]
+      }
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+subtitle",
+      "url": "/?subtitle=%s"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://video-caption-generator.vercel.app/manifest.json"
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": ["focus-existing", "auto"]
+  }
+}

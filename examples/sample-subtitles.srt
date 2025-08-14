@@ -1,0 +1,79 @@
+1
+00:00:00,000 --> 00:00:03,500
+Welcome to the Video Caption Generator tutorial.
+
+2
+00:00:03,500 --> 00:00:07,200
+This application helps you create professional subtitles quickly and easily.
+
+3
+00:00:07,200 --> 00:00:10,800
+You can upload video files or record live speech for real-time transcription.
+
+4
+00:00:10,800 --> 00:00:14,500
+The speech recognition technology supports over 50 languages worldwide.
+
+5
+00:00:14,500 --> 00:00:18,200
+Simply click the upload button to select your video file from your computer.
+
+6
+00:00:18,200 --> 00:00:21,800
+Supported formats include MP4, WebM, MOV, and AVI files.
+
+7
+00:00:21,800 --> 00:00:25,400
+For live recording, click the microphone button and speak clearly.
+
+8
+00:00:25,400 --> 00:00:29,100
+The application will automatically convert your speech to text in real-time.
+
+9
+00:00:29,100 --> 00:00:32,800
+You can edit the generated subtitles using the timeline editor below.
+
+10
+00:00:32,800 --> 00:00:36,500
+Drag the subtitle blocks to adjust timing or click to edit the text content.
+
+11
+00:00:36,500 --> 00:00:40,200
+Translation features allow you to convert subtitles to different languages.
+
+12
+00:00:40,200 --> 00:00:43,900
+Configure your Google Translate API key in settings for translation support.
+
+13
+00:00:43,900 --> 00:00:47,600
+Customize the appearance with font size, color, and background options.
+
+14
+00:00:47,600 --> 00:00:51,300
+Export your subtitles in multiple formats including SRT, WebVTT, and ASS.
+
+15
+00:00:51,300 --> 00:00:55,000
+You can also export videos with burned-in subtitles for final distribution.
+
+16
+00:00:55,000 --> 00:00:58,700
+The application works offline for basic features and includes dark mode support.
+
+17
+00:00:58,700 --> 00:01:02,400
+Keyboard shortcuts help speed up your workflow during editing sessions.
+
+18
+00:01:02,400 --> 00:01:06,100
+Press Space to play or pause, and use arrow keys to navigate the timeline.
+
+19
+00:01:06,100 --> 00:01:09,800
+The responsive design ensures the application works on both desktop and mobile devices.
+
+20
+00:01:09,800 --> 00:01:13,500
+Thank you for using the Video Caption Generator. Happy subtitling!
