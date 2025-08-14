@@ -713,13 +713,126 @@ class VideoCaptionGenerator {
     }
 
     updateStylingPreview() {
-        // Will be implemented with styling logic
-        console.log('Update styling preview placeholder');
+        const preview = document.querySelector('.preview-caption');
+        if (!preview) return;
+
+        // Get current styling settings
+        const fontFamily = document.getElementById('font-family')?.value || 'Arial, sans-serif';
+        const fontSize = document.getElementById('font-size')?.value || '24';
+        const fontWeight = document.getElementById('font-weight')?.value || 'normal';
+        const textColor = document.getElementById('text-color')?.value || '#ffffff';
+        const backgroundColor = document.getElementById('background-color')?.value || '#000000';
+        const backgroundOpacity = document.getElementById('background-opacity')?.value || '80';
+        const position = document.getElementById('caption-position')?.value || 'bottom';
+        const textOutline = document.getElementById('text-outline')?.checked || false;
+        const textShadow = document.getElementById('text-shadow')?.checked || false;
+        const textBackground = document.getElementById('text-background')?.checked || true;
+
+        // Apply styles
+        preview.style.fontFamily = fontFamily;
+        preview.style.fontSize = fontSize + 'px';
+        preview.style.fontWeight = fontWeight;
+        preview.style.color = textColor;
+        
+        if (textBackground) {
+            preview.style.backgroundColor = Utils.getRgbaString(backgroundColor, backgroundOpacity / 100);
+        } else {
+            preview.style.backgroundColor = 'transparent';
+        }
+
+        // Position
+        const container = preview.parentElement;
+        container.style.bottom = position === 'bottom' ? '20px' : 'auto';
+        container.style.top = position === 'top' ? '20px' : 'auto';
+        container.style.top = position === 'middle' ? '50%' : container.style.top;
+        container.style.transform = position === 'middle' ? 'translateX(-50%) translateY(-50%)' : 'translateX(-50%)';
+
+        // Text effects
+        let textShadowValue = '';
+        if (textOutline) {
+            textShadowValue += '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000';
+        }
+        if (textShadow) {
+            if (textShadowValue) textShadowValue += ', ';
+            textShadowValue += '2px 2px 4px rgba(0,0,0,0.5)';
+        }
+        preview.style.textShadow = textShadowValue;
+
+        // Update range value displays
+        const fontSizeValue = document.getElementById('font-size-value');
+        const bgOpacityValue = document.getElementById('bg-opacity-value');
+        
+        if (fontSizeValue) fontSizeValue.textContent = fontSize + 'px';
+        if (bgOpacityValue) bgOpacityValue.textContent = backgroundOpacity + '%';
+
+        // Update hex color inputs
+        const textColorHex = document.getElementById('text-color-hex');
+        const bgColorHex = document.getElementById('background-color-hex');
+        
+        if (textColorHex) textColorHex.value = textColor;
+        if (bgColorHex) bgColorHex.value = backgroundColor;
     }
 
-    translateCaptions() {
-        // Will be implemented with translation logic
-        console.log('Translate captions placeholder');
+    async translateCaptions() {
+        const targetLanguage = document.getElementById('target-language')?.value;
+        
+        if (!targetLanguage) {
+            this.showToast('Please select a target language', 'warning');
+            return;
+        }
+
+        if (!this.captions || this.captions.length === 0) {
+            this.showToast('No captions to translate', 'warning');
+            return;
+        }
+
+        try {
+            this.showToast('Starting translation...', 'info');
+            
+            // Note: This is a mock implementation
+            // In production, you would integrate with Google Translate API or similar service
+            const translatedCaptions = await this.mockTranslateService(this.captions, targetLanguage);
+            
+            // Update captions with translations
+            this.captions = translatedCaptions;
+            
+            // Refresh displays
+            this.refreshCaptionsDisplay();
+            if (this.captionEditor) {
+                this.captionEditor.refreshTimeline();
+            }
+            
+            const languageName = Utils.getTranslationLanguages()[targetLanguage];
+            this.showToast(`Captions translated to ${languageName}`, 'success');
+            
+        } catch (error) {
+            console.error('Translation error:', error);
+            this.showToast('Translation failed: ' + error.message, 'error');
+        }
+    }
+
+    async mockTranslateService(captions, targetLanguage) {
+        // Mock translation service - replace with real API in production
+        const mockTranslations = {
+            'es': {
+                'Hello world': 'Hola mundo',
+                'Welcome to our video': 'Bienvenido a nuestro video',
+                'Thank you for watching': 'Gracias por ver'
+            },
+            'fr': {
+                'Hello world': 'Bonjour le monde',
+                'Welcome to our video': 'Bienvenue dans notre vidéo',
+                'Thank you for watching': 'Merci d\'avoir regardé'
+            }
+        };
+
+        const translations = mockTranslations[targetLanguage] || {};
+        
+        return captions.map(caption => ({
+            ...caption,
+            text: translations[caption.text] || `[${targetLanguage.toUpperCase()}] ${caption.text}`,
+            language: targetLanguage
+        }));
     }
 
     exportCaptions(format) {
@@ -743,13 +856,58 @@ class VideoCaptionGenerator {
     }
 
     saveProject() {
-        // Will be implemented
-        console.log('Save project placeholder');
+        try {
+            const projectData = {
+                metadata: {
+                    name: 'Video Caption Project',
+                    created: new Date().toISOString(),
+                    version: '1.0'
+                },
+                captions: this.captions,
+                styling: this.getStylingState(),
+                settings: {
+                    currentTab: this.currentTab,
+                    theme: this.theme
+                }
+            };
+
+            const content = JSON.stringify(projectData, null, 2);
+            Utils.downloadFile(content, 'video-caption-project.json', 'application/json');
+            
+            this.showToast('Project saved successfully', 'success');
+        } catch (error) {
+            console.error('Save project error:', error);
+            this.showToast('Failed to save project', 'error');
+        }
     }
 
     refreshCaptionsDisplay() {
-        // Will be implemented
-        console.log('Refresh captions display placeholder');
+        const output = document.getElementById('live-captions-output');
+        if (!output) return;
+
+        if (!this.captions || this.captions.length === 0) {
+            output.innerHTML = '<p class="placeholder-text">No captions available</p>';
+            return;
+        }
+
+        output.innerHTML = '';
+        
+        this.captions.forEach(caption => {
+            const segmentElement = document.createElement('div');
+            segmentElement.className = 'caption-segment final';
+            segmentElement.innerHTML = `
+                <div class="caption-timestamp">[${Utils.formatTime(caption.startTime, 'display')} - ${Utils.formatTime(caption.endTime, 'display')}]</div>
+                <div class="caption-text">${Utils.sanitizeText(caption.text)}</div>
+            `;
+            output.appendChild(segmentElement);
+        });
+
+        // Update caption count
+        const countDisplay = document.getElementById('caption-count');
+        if (countDisplay) {
+            const count = this.captions.length;
+            countDisplay.textContent = `${count} segment${count !== 1 ? 's' : ''}`;
+        }
     }
 }
 
