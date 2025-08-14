@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional video caption generator with multi-language support">
+    <title>Video Caption Generator</title>
+    
+    <!-- Favicons and PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196F3">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/themes.css">
+    
+    <!-- External CDN for FFmpeg and additional libraries -->
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+    <script src="https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js"></script>
+</head>
+<body class="light-theme">
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p id="loading-text">Processing...</p>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="app-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#2196F3"/>
+                        <path d="M8 12h16v8H8v-8z" fill="white"/>
+                        <path d="M8 22h16v2H8v-2z" fill="white"/>
+                    </svg>
+                    <h1>Video Caption Generator</h1>
+                </div>
+                <nav class="main-nav">
+                    <button id="help-btn" class="nav-btn" title="Help">
+                        <svg width="20" height="20" fill="currentColor">
+                            <circle cx="10" cy="10" r="9" stroke="currentColor" fill="none"/>
+                            <path d="M10 6v4m0 4v.01"/>
+                        </svg>
+                    </button>
+                    <button id="theme-toggle" class="nav-btn" title="Toggle Theme">
+                        <svg width="20" height="20" fill="currentColor">
+                            <circle cx="10" cy="10" r="5"/>
+                        </svg>
+                    </button>
+                    <button id="settings-btn" class="nav-btn" title="Settings">
+                        <svg width="20" height="20" fill="currentColor">
+                            <circle cx="10" cy="10" r="3"/>
+                            <path d="M10 1v6m0 8v6M4.22 4.22l4.24 4.24m8.48 8.48l4.24 4.24"/>
+                        </svg>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button id="upload-tab" class="tab-btn active" data-tab="upload">
+                    <svg width="16" height="16" fill="currentColor">
+                        <path d="M8 2l3 3h-2v6H9V5H7l1-3z"/>
+                        <path d="M3 14h10v2H3v-2z"/>
+                    </svg>
+                    Upload & Record
+                </button>
+                <button id="edit-tab" class="tab-btn" data-tab="edit">
+                    <svg width="16" height="16" fill="currentColor">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h7l4-5-4-5z"/>
+                    </svg>
+                    Edit Subtitles
+                </button>
+                <button id="export-tab" class="tab-btn" data-tab="export">
+                    <svg width="16" height="16" fill="currentColor">
+                        <path d="M8 13l3-3h-2V4H9v6h2l-3 3z"/>
+                        <path d="M3 2h10v2H3V2z"/>
+                    </svg>
+                    Export
+                </button>
+            </div>
+
+            <!-- Upload & Record Tab -->
+            <div id="upload-panel" class="tab-panel active">
+                <div class="upload-section">
+                    <h2>Upload Video or Record Live</h2>
+                    
+                    <!-- Video Upload -->
+                    <div class="upload-area">
+                        <div class="upload-dropzone" id="upload-dropzone">
+                            <svg width="48" height="48" fill="currentColor" class="upload-icon">
+                                <path d="M24 8l8 8h-6v12h-4V16h-6l8-8z"/>
+                                <path d="M4 36h40v4H4v-4z"/>
+                            </svg>
+                            <h3>Drop video file here or click to browse</h3>
+                            <p>Supported formats: MP4, WebM, MOV, AVI</p>
+                            <input type="file" id="video-upload" accept="video/*" hidden>
+                        </div>
+                    </div>
+
+                    <!-- Live Recording -->
+                    <div class="recording-section">
+                        <h3>Live Recording</h3>
+                        <div class="recording-controls">
+                            <div class="language-selector">
+                                <label for="input-language">Input Language:</label>
+                                <select id="input-language">
+                                    <option value="en-US">English (US)</option>
+                                    <option value="en-GB">English (UK)</option>
+                                    <option value="es-ES">Spanish</option>
+                                    <option value="fr-FR">French</option>
+                                    <option value="de-DE">German</option>
+                                    <option value="hi-IN">Hindi</option>
+                                    <option value="zh-CN">Chinese (Simplified)</option>
+                                    <option value="ja-JP">Japanese</option>
+                                    <option value="ar-SA">Arabic</option>
+                                    <option value="ru-RU">Russian</option>
+                                </select>
+                            </div>
+                            <button id="record-btn" class="record-btn">
+                                <svg width="24" height="24" fill="currentColor">
+                                    <circle cx="12" cy="12" r="8"/>
+                                </svg>
+                                Start Recording
+                            </button>
+                        </div>
+                        
+                        <!-- Live Captions Display -->
+                        <div id="live-captions" class="live-captions hidden">
+                            <h4>Live Captions</h4>
+                            <div id="captions-display" class="captions-display"></div>
+                            <div class="confidence-meter">
+                                <label>Confidence:</label>
+                                <div class="confidence-bar">
+                                    <div id="confidence-fill" class="confidence-fill"></div>
+                                </div>
+                                <span id="confidence-value">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Tab -->
+            <div id="edit-panel" class="tab-panel">
+                <div class="edit-section">
+                    <h2>Edit Subtitles</h2>
+                    
+                    <!-- Video Preview -->
+                    <div class="video-preview">
+                        <video id="preview-video" controls class="preview-video hidden">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div id="video-placeholder" class="video-placeholder">
+                            <svg width="64" height="64" fill="currentColor">
+                                <rect width="64" height="48" rx="4" stroke="currentColor" fill="none"/>
+                                <polygon points="26,18 26,30 38,24" fill="currentColor"/>
+                            </svg>
+                            <p>Upload a video to start editing</p>
+                        </div>
+                    </div>
+
+                    <!-- Subtitle Timeline -->
+                    <div class="timeline-section">
+                        <div class="timeline-controls">
+                            <button id="play-pause-btn" class="control-btn" disabled>
+                                <svg width="16" height="16" fill="currentColor">
+                                    <polygon points="5,3 19,12 5,21"/>
+                                </svg>
+                            </button>
+                            <span id="current-time">00:00</span>
+                            <input type="range" id="timeline-slider" class="timeline-slider" min="0" max="100" value="0" disabled>
+                            <span id="total-time">00:00</span>
+                        </div>
+                        
+                        <div id="subtitle-timeline" class="subtitle-timeline">
+                            <!-- Subtitle blocks will be dynamically generated here -->
+                        </div>
+                    </div>
+
+                    <!-- Subtitle Editor -->
+                    <div class="subtitle-editor">
+                        <div class="editor-controls">
+                            <button id="add-subtitle-btn" class="btn secondary">Add Subtitle</button>
+                            <button id="translate-btn" class="btn secondary">Translate</button>
+                            <select id="target-language">
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="hi">Hindi</option>
+                                <option value="zh">Chinese</option>
+                                <option value="ja">Japanese</option>
+                                <option value="ar">Arabic</option>
+                            </select>
+                        </div>
+                        
+                        <div id="subtitle-list" class="subtitle-list">
+                            <!-- Subtitle entries will be dynamically generated here -->
+                        </div>
+                    </div>
+
+                    <!-- Styling Controls -->
+                    <div class="styling-section">
+                        <h3>Subtitle Styling</h3>
+                        <div class="styling-controls">
+                            <div class="style-group">
+                                <label for="font-family">Font:</label>
+                                <select id="font-family">
+                                    <option value="Arial">Arial</option>
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Verdana">Verdana</option>
+                                    <option value="Georgia">Georgia</option>
+                                </select>
+                            </div>
+                            <div class="style-group">
+                                <label for="font-size">Size:</label>
+                                <input type="range" id="font-size" min="12" max="48" value="24">
+                                <span id="font-size-value">24px</span>
+                            </div>
+                            <div class="style-group">
+                                <label for="font-color">Text Color:</label>
+                                <input type="color" id="font-color" value="#FFFFFF">
+                            </div>
+                            <div class="style-group">
+                                <label for="bg-color">Background:</label>
+                                <input type="color" id="bg-color" value="#000000">
+                            </div>
+                            <div class="style-group">
+                                <label for="bg-opacity">Opacity:</label>
+                                <input type="range" id="bg-opacity" min="0" max="100" value="80">
+                                <span id="bg-opacity-value">80%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Tab -->
+            <div id="export-panel" class="tab-panel">
+                <div class="export-section">
+                    <h2>Export Options</h2>
+                    
+                    <div class="export-options">
+                        <div class="export-format">
+                            <h3>Subtitle Format</h3>
+                            <div class="format-options">
+                                <label class="radio-option">
+                                    <input type="radio" name="export-format" value="srt" checked>
+                                    <span class="radio-label">SRT (SubRip)</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="export-format" value="vtt">
+                                    <span class="radio-label">WebVTT</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="export-format" value="ass">
+                                    <span class="radio-label">ASS/SSA</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="export-format" value="json">
+                                    <span class="radio-label">JSON</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="video-export">
+                            <h3>Video Export</h3>
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="include-video">
+                                <span class="checkbox-label">Export video with burned-in subtitles</span>
+                            </label>
+                            <div id="video-quality" class="quality-options hidden">
+                                <label for="export-quality">Quality:</label>
+                                <select id="export-quality">
+                                    <option value="high">High (1080p)</option>
+                                    <option value="medium" selected>Medium (720p)</option>
+                                    <option value="low">Low (480p)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="export-actions">
+                            <button id="preview-export-btn" class="btn secondary">Preview</button>
+                            <button id="export-btn" class="btn primary">Export</button>
+                        </div>
+                    </div>
+
+                    <!-- Export Progress -->
+                    <div id="export-progress" class="export-progress hidden">
+                        <h3>Exporting...</h3>
+                        <div class="progress-bar">
+                            <div id="export-progress-fill" class="progress-fill"></div>
+                        </div>
+                        <p id="export-status">Preparing export...</p>
+                        <button id="cancel-export-btn" class="btn secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="container">
+            <p>&copy; 2024 Video Caption Generator. Built for accessibility and multilingual support.</p>
+            <div class="footer-links">
+                <a href="docs/BEGINNER_GUIDE.md" target="_blank">Beginner's Guide</a>
+                <a href="docs/API_DOCUMENTATION.md" target="_blank">API Docs</a>
+                <a href="docs/TROUBLESHOOTING.md" target="_blank">Help</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Dialogs -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <h3>API Configuration</h3>
+                    <label for="google-translate-key">Google Translate API Key:</label>
+                    <input type="password" id="google-translate-key" placeholder="Enter your API key">
+                    <small>Required for translation features. <a href="#" target="_blank">Get API Key</a></small>
+                </div>
+                <div class="settings-group">
+                    <h3>Performance</h3>
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="enable-gpu">
+                        <span class="checkbox-label">Enable GPU acceleration (experimental)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary" id="cancel-settings">Cancel</button>
+                <button class="btn primary" id="save-settings">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Help & Documentation</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h3>Quick Start</h3>
+                    <ol>
+                        <li>Upload a video file or start live recording</li>
+                        <li>Review and edit the generated subtitles</li>
+                        <li>Customize styling and timing</li>
+                        <li>Export in your preferred format</li>
+                    </ol>
+                </div>
+                <div class="help-section">
+                    <h3>Keyboard Shortcuts</h3>
+                    <ul>
+                        <li><kbd>Space</kbd> - Play/Pause video</li>
+                        <li><kbd>←/→</kbd> - Navigate timeline</li>
+                        <li><kbd>Ctrl+S</kbd> - Save subtitles</li>
+                        <li><kbd>Ctrl+Z</kbd> - Undo</li>
+                    </ul>
+                </div>
+                <div class="help-section">
+                    <h3>Supported Formats</h3>
+                    <p><strong>Input:</strong> MP4, WebM, MOV, AVI</p>
+                    <p><strong>Output:</strong> SRT, WebVTT, ASS/SSA, JSON</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="js/utils.js"></script>
+    <script src="js/speech-recognition.js"></script>
+    <script src="js/video-processor.js"></script>
+    <script src="js/translator.js"></script>
+    <script src="js/subtitle-editor.js"></script>
+    <script src="js/export-handler.js"></script>
+    <script src="js/ui-controller.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>

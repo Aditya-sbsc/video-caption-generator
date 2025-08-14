@@ -1,0 +1,471 @@
+/* Theme Support - Light and Dark Themes */
+
+/* Light Theme (Default) */
+.light-theme {
+    /* Primary Colors */
+    --primary-color: #2196F3;
+    --primary-light: #64B5F6;
+    --primary-dark: #1976D2;
+    
+    /* Secondary Colors */
+    --secondary-color: #FF9800;
+    --secondary-light: #FFB74D;
+    --secondary-dark: #F57C00;
+    
+    /* Neutral Colors */
+    --background: #FAFAFA;
+    --surface: #FFFFFF;
+    --surface-variant: #F5F5F5;
+    --surface-hover: #F0F0F0;
+    --outline: #E0E0E0;
+    --outline-variant: #EEEEEE;
+    --divider: #E0E0E0;
+    
+    /* Text Colors */
+    --on-surface: #212121;
+    --on-surface-variant: #757575;
+    --on-background: #212121;
+    --on-primary: #FFFFFF;
+    --on-secondary: #FFFFFF;
+    
+    /* Status Colors */
+    --success: #4CAF50;
+    --success-light: #81C784;
+    --success-dark: #388E3C;
+    --warning: #FF9800;
+    --warning-light: #FFB74D;
+    --warning-dark: #F57C00;
+    --error: #F44336;
+    --error-light: #E57373;
+    --error-dark: #D32F2F;
+    --info: #2196F3;
+    --info-light: #64B5F6;
+    --info-dark: #1976D2;
+    
+    /* Shadows */
+    --shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    --shadow-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    --shadow-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    
+    /* Video and Media */
+    --video-background: #000000;
+    --subtitle-overlay: rgba(0, 0, 0, 0.8);
+    --subtitle-text: #FFFFFF;
+    
+    /* Timeline Colors */
+    --timeline-background: #F5F5F5;
+    --timeline-track: #E0E0E0;
+    --timeline-progress: #2196F3;
+    --timeline-subtitle: #4CAF50;
+    
+    /* Code and Monospace */
+    --code-background: #F8F9FA;
+    --code-text: #2E3440;
+    --code-border: #E1E4E8;
+}
+
+/* Dark Theme */
+.dark-theme {
+    /* Primary Colors - Slightly adjusted for dark theme */
+    --primary-color: #42A5F5;
+    --primary-light: #90CAF9;
+    --primary-dark: #1E88E5;
+    
+    /* Secondary Colors */
+    --secondary-color: #FFA726;
+    --secondary-light: #FFCC02;
+    --secondary-dark: #FF8F00;
+    
+    /* Neutral Colors */
+    --background: #121212;
+    --surface: #1E1E1E;
+    --surface-variant: #2D2D2D;
+    --surface-hover: #383838;
+    --outline: #444444;
+    --outline-variant: #333333;
+    --divider: #444444;
+    
+    /* Text Colors */
+    --on-surface: #E0E0E0;
+    --on-surface-variant: #B0B0B0;
+    --on-background: #E0E0E0;
+    --on-primary: #000000;
+    --on-secondary: #000000;
+    
+    /* Status Colors - Adjusted for dark theme */
+    --success: #66BB6A;
+    --success-light: #A5D6A7;
+    --success-dark: #4CAF50;
+    --warning: #FFA726;
+    --warning-light: #FFCC02;
+    --warning-dark: #FF8F00;
+    --error: #EF5350;
+    --error-light: #FFCDD2;
+    --error-dark: #D32F2F;
+    --info: #42A5F5;
+    --info-light: #90CAF9;
+    --info-dark: #1E88E5;
+    
+    /* Shadows - Adjusted for dark theme */
+    --shadow-1: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.6);
+    --shadow-2: 0 3px 6px rgba(0,0,0,0.5), 0 3px 6px rgba(0,0,0,0.7);
+    --shadow-3: 0 10px 20px rgba(0,0,0,0.6), 0 6px 6px rgba(0,0,0,0.8);
+    
+    /* Video and Media */
+    --video-background: #000000;
+    --subtitle-overlay: rgba(0, 0, 0, 0.9);
+    --subtitle-text: #FFFFFF;
+    
+    /* Timeline Colors */
+    --timeline-background: #2D2D2D;
+    --timeline-track: #444444;
+    --timeline-progress: #42A5F5;
+    --timeline-subtitle: #66BB6A;
+    
+    /* Code and Monospace */
+    --code-background: #2D2D2D;
+    --code-text: #D4D4D4;
+    --code-border: #444444;
+}
+
+/* Theme Transition Animation */
+.light-theme,
+.dark-theme {
+    transition: 
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.light-theme *,
+.dark-theme * {
+    transition: 
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Theme-specific Component Styles */
+
+/* Upload Dropzone */
+.dark-theme .upload-dropzone {
+    background-color: var(--surface-variant);
+    border-color: var(--outline);
+}
+
+.dark-theme .upload-dropzone:hover,
+.dark-theme .upload-dropzone.dragover {
+    background-color: rgba(66, 165, 245, 0.1);
+    border-color: var(--primary-color);
+}
+
+/* Video Player */
+.dark-theme .preview-video {
+    background-color: var(--video-background);
+}
+
+.dark-theme .video-placeholder {
+    background-color: var(--surface-variant);
+    color: var(--on-surface-variant);
+}
+
+/* Timeline */
+.dark-theme .subtitle-timeline {
+    background-color: var(--timeline-background);
+}
+
+.dark-theme .timeline-slider {
+    background: var(--timeline-track);
+}
+
+.dark-theme .timeline-slider::-webkit-slider-thumb {
+    background: var(--timeline-progress);
+}
+
+.dark-theme .timeline-slider::-moz-range-thumb {
+    background: var(--timeline-progress);
+}
+
+/* Live Captions */
+.dark-theme .captions-display {
+    background-color: var(--surface);
+    border-color: var(--outline);
+    color: var(--on-surface);
+}
+
+.dark-theme .live-captions {
+    background-color: var(--surface-variant);
+}
+
+/* Subtitle Items */
+.dark-theme .subtitle-item {
+    background-color: var(--surface);
+    border-color: var(--outline);
+}
+
+.dark-theme .subtitle-item:hover {
+    background-color: var(--surface-hover);
+}
+
+.dark-theme .subtitle-list {
+    background-color: var(--surface-variant);
+    border-color: var(--outline);
+}
+
+/* Form Elements */
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea {
+    background-color: var(--surface);
+    border-color: var(--outline);
+    color: var(--on-surface);
+}
+
+.dark-theme input:focus,
+.dark-theme select:focus,
+.dark-theme textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(66, 165, 245, 0.2);
+}
+
+/* Code and Monospace Elements */
+.dark-theme .captions-display,
+.dark-theme .time-input,
+.dark-theme code,
+.dark-theme pre {
+    background-color: var(--code-background);
+    color: var(--code-text);
+    border-color: var(--code-border);
+}
+
+.dark-theme kbd {
+    background-color: var(--surface-variant);
+    border-color: var(--outline);
+    color: var(--on-surface);
+}
+
+/* Modal Dialogs */
+.dark-theme .modal {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dark-theme .modal-content {
+    background-color: var(--surface);
+    color: var(--on-surface);
+}
+
+.dark-theme .modal-header,
+.dark-theme .modal-footer {
+    border-color: var(--outline);
+}
+
+/* Loading Overlay */
+.dark-theme .loading-overlay {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.dark-theme .loading-content {
+    background-color: var(--surface);
+    color: var(--on-surface);
+}
+
+.dark-theme .loading-spinner {
+    border-color: var(--outline);
+    border-top-color: var(--primary-color);
+}
+
+/* Progress Bars */
+.dark-theme .progress-bar {
+    background-color: var(--outline);
+}
+
+.dark-theme .progress-fill {
+    background-color: var(--primary-color);
+}
+
+.dark-theme .confidence-bar {
+    background-color: var(--outline);
+}
+
+.dark-theme .confidence-fill {
+    background-color: var(--success);
+}
+
+/* Export Progress */
+.dark-theme .export-progress {
+    background-color: var(--surface-variant);
+}
+
+/* Settings and Help Sections */
+.dark-theme .settings-group,
+.dark-theme .help-section {
+    color: var(--on-surface);
+}
+
+.dark-theme .style-group {
+    background-color: var(--surface-variant);
+}
+
+/* Radio and Checkbox Options */
+.dark-theme .radio-option,
+.dark-theme .checkbox-option {
+    background-color: var(--surface);
+    border-color: var(--outline);
+}
+
+.dark-theme .radio-option:hover,
+.dark-theme .checkbox-option:hover {
+    background-color: rgba(66, 165, 245, 0.1);
+    border-color: var(--primary-color);
+}
+
+/* Tab Buttons */
+.dark-theme .tab-btn.active {
+    background-color: rgba(66, 165, 245, 0.1);
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* Footer Links */
+.dark-theme .footer-links a {
+    color: var(--primary-color);
+}
+
+.dark-theme .footer-links a:hover {
+    color: var(--primary-light);
+}
+
+/* Theme Toggle Button Icon */
+.theme-toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.dark-theme .theme-toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Scrollbars for Dark Theme */
+.dark-theme ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.dark-theme ::-webkit-scrollbar-track {
+    background: var(--surface-variant);
+    border-radius: 4px;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+    background: var(--outline);
+    border-radius: 4px;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb:hover {
+    background: var(--on-surface-variant);
+}
+
+/* Light Theme Scrollbars */
+.light-theme ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.light-theme ::-webkit-scrollbar-track {
+    background: var(--surface-variant);
+    border-radius: 4px;
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+    background: var(--outline);
+    border-radius: 4px;
+}
+
+.light-theme ::-webkit-scrollbar-thumb:hover {
+    background: var(--on-surface-variant);
+}
+
+/* High Contrast Mode Adjustments */
+@media (prefers-contrast: high) {
+    .dark-theme {
+        --background: #000000;
+        --surface: #1A1A1A;
+        --surface-variant: #333333;
+        --outline: #666666;
+        --on-surface: #FFFFFF;
+        --on-surface-variant: #CCCCCC;
+    }
+    
+    .light-theme {
+        --background: #FFFFFF;
+        --surface: #FFFFFF;
+        --surface-variant: #F0F0F0;
+        --outline: #333333;
+        --on-surface: #000000;
+        --on-surface-variant: #333333;
+    }
+}
+
+/* System Theme Preference Detection */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Default to dark theme if system preference is dark */
+        /* These will be overridden by the explicit theme classes */
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        /* Default to light theme if system preference is light */
+        /* These will be overridden by the explicit theme classes */
+    }
+}
+
+/* Theme Transition Disabled for Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .light-theme,
+    .dark-theme,
+    .light-theme *,
+    .dark-theme * {
+        transition: none !important;
+    }
+    
+    .theme-toggle-icon {
+        transition: none !important;
+    }
+}
+
+/* Focus Ring Adjustments for Themes */
+.dark-theme *:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.light-theme *:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Selection Colors */
+.dark-theme ::selection {
+    background-color: rgba(66, 165, 245, 0.3);
+    color: var(--on-surface);
+}
+
+.light-theme ::selection {
+    background-color: rgba(33, 150, 243, 0.3);
+    color: var(--on-surface);
+}
+
+/* Print Styles for Dark Theme */
+@media print {
+    .dark-theme {
+        /* Force light colors for printing */
+        --background: #FFFFFF;
+        --surface: #FFFFFF;
+        --on-surface: #000000;
+        --on-surface-variant: #666666;
+        --outline: #CCCCCC;
+    }
+}
