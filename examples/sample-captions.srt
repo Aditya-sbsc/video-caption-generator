@@ -1,0 +1,42 @@
+1
+00:00:00,000 --> 00:00:03,500
+Welcome to the Video Caption Generator demo.
+
+2
+00:00:03,500 --> 00:00:07,000
+This application provides real-time speech recognition
+and professional caption editing.
+
+3
+00:00:07,000 --> 00:00:11,000
+You can upload videos, record live audio,
+and export captions in multiple formats.
+
+4
+00:00:11,000 --> 00:00:14,500
+The timeline editor allows you to split, merge,
+and customize your captions with ease.
+
+5
+00:00:14,500 --> 00:00:18,000
+Professional styling options include fonts,
+colors, positioning, and text effects.
+
+6
+00:00:18,000 --> 00:00:21,500
+Export your captions as SRT, VTT, ASS,
+or JSON files for any platform.
+
+7
+00:00:21,500 --> 00:00:25,000
+The application works offline as a Progressive Web App
+and supports 50+ languages.
+
+8
+00:00:25,000 --> 00:00:28,500
+Make your content accessible and engage
+a broader audience with professional captions.
+
+9
+00:00:28,500 --> 00:00:31,000
+Thank you for trying the Video Caption Generator!
