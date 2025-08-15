@@ -1,0 +1,373 @@
+/* Video Caption Generator - Theme System */
+
+/* Light Theme (Default) */
+:root {
+    --theme-name: 'light';
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --theme-name: 'dark';
+    
+    /* Override color variables for dark theme */
+    --primary-color: #3b82f6;
+    --primary-dark: #2563eb;
+    --primary-light: #60a5fa;
+    
+    /* Background Colors */
+    --bg-primary: #1e293b;
+    --bg-secondary: #0f172a;
+    --bg-tertiary: #334155;
+    --bg-dark: #0f172a;
+    --bg-darker: #020617;
+    
+    /* Text Colors */
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-inverse: #0f172a;
+    
+    /* Neutral Colors */
+    --gray-50: #0f172a;
+    --gray-100: #1e293b;
+    --gray-200: #334155;
+    --gray-300: #475569;
+    --gray-400: #64748b;
+    --gray-500: #94a3b8;
+    --gray-600: #cbd5e1;
+    --gray-700: #e2e8f0;
+    --gray-800: #f1f5f9;
+    --gray-900: #f8fafc;
+    
+    /* Border Colors */
+    --border-color: #334155;
+    --border-hover: #475569;
+    --border-focus: #3b82f6;
+    
+    /* Update shadows for dark theme */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+}
+
+/* Theme-specific component adjustments */
+[data-theme="dark"] .loading-screen {
+    background: linear-gradient(135deg, var(--gray-900), var(--gray-800));
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .app-header {
+    background: linear-gradient(135deg, var(--bg-darker), var(--bg-dark));
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .main-nav {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .nav-tab:hover {
+    background-color: var(--bg-tertiary);
+}
+
+[data-theme="dark"] .upload-area {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .upload-area:hover,
+[data-theme="dark"] .upload-area.dragover {
+    background: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+[data-theme="dark"] #preview-video {
+    background: var(--gray-100);
+}
+
+[data-theme="dark"] #audio-canvas {
+    background: var(--gray-100);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .timeline {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .timeline-ruler {
+    background: var(--bg-primary);
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .preview-container {
+    background: var(--gray-100);
+}
+
+[data-theme="dark"] .preview-code {
+    background: var(--gray-100);
+    color: var(--gray-900);
+}
+
+[data-theme="dark"] .app-footer {
+    background: var(--bg-darker);
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .footer-links a {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .footer-links a:hover {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] kbd {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* Theme transition animations */
+* {
+    transition: background-color var(--transition-normal), 
+                color var(--transition-normal), 
+                border-color var(--transition-normal);
+}
+
+/* Theme toggle button specific styles */
+.theme-toggle {
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-icon {
+    transition: transform var(--transition-normal);
+}
+
+[data-theme="dark"] .theme-icon {
+    transform: rotate(180deg);
+}
+
+[data-theme="light"] .theme-icon::before {
+    content: "🌙";
+}
+
+[data-theme="dark"] .theme-icon::before {
+    content: "☀️";
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --border-color: #000000;
+        --text-secondary: #000000;
+    }
+    
+    [data-theme="dark"] {
+        --border-color: #ffffff;
+        --text-secondary: #ffffff;
+    }
+    
+    .btn {
+        border-width: 2px;
+    }
+    
+    .text-input,
+    .textarea-input,
+    .select-input {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .loading-spinner {
+        animation: none;
+        border: 4px solid var(--text-inverse);
+    }
+}
+
+/* Color scheme media query for automatic theme detection */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        /* Apply dark theme variables when user prefers dark mode and no theme is explicitly set */
+        --theme-name: 'dark';
+        --primary-color: #3b82f6;
+        --primary-dark: #2563eb;
+        --primary-light: #60a5fa;
+        --bg-primary: #1e293b;
+        --bg-secondary: #0f172a;
+        --bg-tertiary: #334155;
+        --bg-dark: #0f172a;
+        --bg-darker: #020617;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --text-inverse: #0f172a;
+        --gray-50: #0f172a;
+        --gray-100: #1e293b;
+        --gray-200: #334155;
+        --gray-300: #475569;
+        --gray-400: #64748b;
+        --gray-500: #94a3b8;
+        --gray-600: #cbd5e1;
+        --gray-700: #e2e8f0;
+        --gray-800: #f1f5f9;
+        --gray-900: #f8fafc;
+        --border-color: #334155;
+        --border-hover: #475569;
+        --border-focus: #3b82f6;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+    }
+}
+
+/* Theme-aware scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gray-400);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-500);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--gray-500);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* Theme-aware selection colors */
+::selection {
+    background: var(--primary-color);
+    color: var(--text-inverse);
+}
+
+::-moz-selection {
+    background: var(--primary-color);
+    color: var(--text-inverse);
+}
+
+/* Theme-aware form controls */
+[data-theme="dark"] .text-input,
+[data-theme="dark"] .textarea-input,
+[data-theme="dark"] .select-input {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .text-input:focus,
+[data-theme="dark"] .textarea-input:focus,
+[data-theme="dark"] .select-input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Theme-aware range inputs */
+[data-theme="dark"] .range-input {
+    background: var(--gray-300);
+}
+
+[data-theme="dark"] .range-input::-webkit-slider-thumb {
+    background: var(--primary-color);
+}
+
+[data-theme="dark"] .range-input::-moz-range-thumb {
+    background: var(--primary-color);
+}
+
+/* Theme-aware color inputs */
+[data-theme="dark"] .color-input {
+    border-color: var(--border-color);
+    background: var(--bg-primary);
+}
+
+/* Theme-aware modal */
+[data-theme="dark"] .modal {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Theme-aware toast notifications */
+[data-theme="dark"] .toast {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* Print styles - force light theme for printing */
+@media print {
+    [data-theme="dark"] {
+        --bg-primary: #ffffff !important;
+        --bg-secondary: #f8fafc !important;
+        --bg-tertiary: #f1f5f9 !important;
+        --text-primary: #0f172a !important;
+        --text-secondary: #475569 !important;
+        --text-muted: #64748b !important;
+        --border-color: #e2e8f0 !important;
+    }
+    
+    [data-theme="dark"] * {
+        background: white !important;
+        color: black !important;
+        border-color: #ccc !important;
+    }
+}
+
+/* Theme-specific animations */
+@keyframes darkModeGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px var(--primary-color);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+    }
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    animation: darkModeGlow 2s infinite;
+}
+
+/* Accessibility improvements for themes */
+[data-theme="dark"] .sr-only {
+    color: var(--text-primary);
+}
+
+/* Theme-aware loading screen */
+[data-theme="dark"] .loading-spinner {
+    border-color: rgba(248, 250, 252, 0.3);
+    border-top-color: var(--text-primary);
+}
+
+/* Theme persistence helper class */
+.theme-transition,
+.theme-transition *,
+.theme-transition *:before,
+.theme-transition *:after {
+    transition: all var(--transition-slow) !important;
+    transition-delay: 0 !important;
+}
