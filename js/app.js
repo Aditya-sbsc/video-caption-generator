@@ -120,6 +120,11 @@ class VideoCaptionGenerator {
 
         // Setup drag and drop
         this.setupDragAndDrop();
+
+        // Initialize contact form manager
+        if (window.ContactFormManager) {
+            this.contactFormManager = new ContactFormManager(this);
+        }
     }
 
     /**

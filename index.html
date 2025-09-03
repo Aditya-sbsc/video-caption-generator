@@ -20,6 +20,9 @@
     <!-- Preload critical resources -->
     <link rel="preload" href="js/app.js" as="script">
     <link rel="preload" href="css/styles.css" as="style">
+    
+    <!-- EmailJS for contact form -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -75,6 +78,10 @@
                 <button class="nav-tab" data-tab="export" aria-selected="false">
                     <span class="tab-icon">💾</span>
                     <span class="tab-text">Export</span>
+                </button>
+                <button class="nav-tab" data-tab="contact" aria-selected="false">
+                    <span class="tab-icon">📧</span>
+                    <span class="tab-text">Contact</span>
                 </button>
             </div>
         </nav>
@@ -584,6 +591,98 @@ Select a format to preview the exported content...
                 </div>
             </section>
 
+            <!-- Contact Tab -->
+            <section id="contact" class="tab-content" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="content-header">
+                    <h2>Contact Us</h2>
+                    <p>Send us your feedback, questions, or suggestions about the Video Caption Generator</p>
+                </div>
+
+                <div class="contact-container">
+                    <div class="contact-form-wrapper">
+                        <form id="contact-form" class="contact-form">
+                            <div class="form-group">
+                                <label for="contact-name">Name *</label>
+                                <input type="text" id="contact-name" name="name" class="text-input" required placeholder="Enter your full name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-email">Email *</label>
+                                <input type="email" id="contact-email" name="email" class="text-input" required placeholder="Enter your email address">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-subject">Subject *</label>
+                                <select id="contact-subject" name="subject" class="select-input" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="feedback">General Feedback</option>
+                                    <option value="bug">Bug Report</option>
+                                    <option value="feature">Feature Request</option>
+                                    <option value="business">Business Inquiry</option>
+                                    <option value="technical">Technical Support</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-message">Message *</label>
+                                <textarea id="contact-message" name="message" class="textarea-input" rows="5" required 
+                                    placeholder="Please describe your feedback, issue, or question in detail..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-browser">Browser Information (Optional)</label>
+                                <input type="text" id="contact-browser" name="browser" class="text-input" readonly 
+                                    placeholder="Browser information will be auto-filled">
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" id="send-contact" class="btn btn-primary btn-large">
+                                    <span class="btn-icon">📧</span>
+                                    Send Message
+                                </button>
+                                <button type="reset" id="reset-contact" class="btn btn-secondary">
+                                    <span class="btn-icon">🔄</span>
+                                    Reset Form
+                                </button>
+                            </div>
+
+                            <div class="contact-status" id="contact-status" style="display: none;">
+                                <!-- Status messages will appear here -->
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="contact-info">
+                        <div class="info-card">
+                            <h3>📍 About This Tool</h3>
+                            <p>The Video Caption Generator is a professional web application designed to make video content accessible through automated caption generation.</p>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>🎯 Common Use Cases</h3>
+                            <ul>
+                                <li>Report bugs or technical issues</li>
+                                <li>Suggest new features or improvements</li>
+                                <li>Ask for business or enterprise solutions</li>
+                                <li>Request technical support or guidance</li>
+                                <li>Share feedback about your experience</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>⏱️ Response Time</h3>
+                            <p>We typically respond to messages within 24-48 hours during business days. For urgent technical issues, please include detailed steps to reproduce the problem.</p>
+                        </div>
+
+                        <div class="info-card">
+                            <h3>🔒 Privacy Notice</h3>
+                            <p>Your contact information is used solely for responding to your inquiry. We do not share or sell your information to third parties.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
 
         <!-- Footer -->
@@ -656,6 +755,7 @@ Select a format to preview the exported content...
     <script src="js/video-processor.js"></script>
     <script src="js/caption-editor.js"></script>
     <script src="js/export-manager.js"></script>
+    <script src="js/contact-form.js"></script>
     <script src="js/app.js"></script>
 
     <!-- Service Worker Registration -->
